@@ -1,6 +1,20 @@
 "use server";
 
-export const loginAction = async (previosState,formData: FormData) => {
+import { cookies } from "next/headers";
+
+type FormType = {
+  success: boolean;
+  message: string;
+  data: {
+    accessToken: string;
+    refreshToken: string;
+  };
+};
+
+export const loginAction = async (
+  previousState: FormType,
+  formData: FormData,
+) => {
   const email = formData.get("email");
   const password = formData.get("password");
   console.log(email, password);
@@ -16,7 +30,21 @@ export const loginAction = async (previosState,formData: FormData) => {
     body: JSON.stringify(payload),
   });
 
-  const result = await res.json();
-  console.log("result ", result);
-  return result;
+  const result: FormType = await res.json();
+  if (result.success) {
+    console.log("this block is running");
+    const cookie = await cookies();
+    cookie.set("accessToken", result.data.accessToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24,
+    });
+    cookie.set("refreshToken", result.data.refreshToken, {
+      httpOnly: true,
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    console.log(cookie.getAll(), "all cookies");
+  }
+
+  return await res.json();
 };

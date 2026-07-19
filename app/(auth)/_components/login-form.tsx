@@ -12,10 +12,21 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { loginAction } from "../_action/auth-action";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 export default function LoginForm() {
-  const [state,action,pending] = useActionState(loginAction,false)
+  const [state, action, pending] = useActionState(loginAction, false);
+
+  useEffect(() => {
+    if (!state) return;
+    if (state.success) {
+      toast.success("User Login successfully", { position: "top-center" });
+    }
+    if (!state.success) {
+      toast.error("Sorry can not login", { position: "top-center" });
+    }
+  }, [state]);
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -48,7 +59,7 @@ export default function LoginForm() {
             </div>
             <CardFooter className="flex-col gap-2">
               <Button type="submit" className="w-full">
-                Login
+                {pending ? "Logging in" : "Login"}
               </Button>
             </CardFooter>
           </div>
