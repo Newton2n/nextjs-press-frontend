@@ -1,8 +1,9 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { RegisterFormType } from "../types";
 
-type FormType = {
+type LoginFormType = {
   success: boolean;
   message: string;
   data: {
@@ -12,7 +13,7 @@ type FormType = {
 };
 
 export const loginAction = async (
-  previousState: FormType,
+  previousState: LoginFormType,
   formData: FormData,
 ) => {
   const email = formData.get("email");
@@ -30,7 +31,7 @@ export const loginAction = async (
     body: JSON.stringify(payload),
   });
 
-  const result: FormType = await res.json();
+  const result = await res.json();
   if (result.success) {
     console.log("this block is running");
     const cookie = await cookies();
@@ -46,5 +47,35 @@ export const loginAction = async (
     console.log(cookie.getAll(), "all cookies");
   }
 
-  return await res.json();
+  return result;
+};
+
+// register action
+export const registerAction = async (
+  previousState: RegisterFormType,
+  formData: FormData,
+) => {
+  const name = formData.get("name");
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const bio = formData.get("bio");
+
+  const payload = {
+    name,
+    email,
+    password,
+    bio,
+  };
+  const res = await fetch(`${process.env.BACKEND_URL}/api/users/register`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await res.json();
+
+  console.log(result, "register result ");
+  return result;
 };

@@ -14,19 +14,24 @@ import { Label } from "@/components/ui/label";
 import { loginAction } from "../_action/auth-action";
 import { useActionState, useEffect } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState(loginAction, false);
-
+  const router = useRouter();
   useEffect(() => {
+    router.refresh();
     if (!state) return;
     if (state.success) {
       toast.success("User Login successfully", { position: "top-center" });
+      router.replace("/");
     }
+    console.log("state.success", state.success);
     if (!state.success) {
       toast.error("Sorry can not login", { position: "top-center" });
     }
-  }, [state]);
+  }, [state, router]);
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -35,7 +40,9 @@ export default function LoginForm() {
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
+          <Link href="/register">
           <Button variant="link">Sign Up</Button>
+          </Link>
         </CardAction>
       </CardHeader>
       <CardContent>
