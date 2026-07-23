@@ -22,15 +22,16 @@ import { useRouter } from "next/navigation";
 // Navigation items configuration
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "News", href: "/news" },
+  { label: "Premium", href: "/premium" },
+  { label: "Subscribe", href: "/pricing" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
 ];
 
 // User menu items configuration
 const userMenuItems = [
-  { label: "Profile", icon: User, action: "profile" },
-  { label: "Settings", icon: Settings, action: "settings" },
+  { label: "My Profile", icon: User, href: "/profile/user-1", action: "profile" },
+  { label: "Create Post", icon: Settings, href: "/create-post", action: "create" },
 ];
 
 type NavbarProps = {
@@ -130,13 +131,16 @@ export function Navbar({ user }: NavbarProps) {
                 {userMenuItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <DropdownMenuItem
+                    <Link
                       key={item.action}
-                      // onClick={() => handleUserMenuAction(item.action)}
+                      href={item.href || "#"}
+                      className="block w-full"
                     >
-                      <Icon className="w-4 h-4 mr-2" />
-                      <span>{item.label}</span>
-                    </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Icon className="w-4 h-4 mr-2" />
+                        <span>{item.label}</span>
+                      </DropdownMenuItem>
+                    </Link>
                   );
                 })}
                 <DropdownMenuSeparator />

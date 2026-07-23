@@ -84,9 +84,9 @@ export async function proxy(request: NextRequest) {
     (route) => route === reqPathName || reqPathName.startsWith(route + "/"),
   );
 
-  if (!isAuthRoute && !isPublicRoute && !verifyAccessToken?.success) {
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
+  // if (!isAuthRoute && !isPublicRoute && !verifyAccessToken?.success) {
+  //   return NextResponse.redirect(new URL("/login", request.url));
+  // }
 
   if (verifyAccessToken?.success && userRole) {
     if (reqPathName.startsWith("/dashboard") && userRole !== "USER") {
