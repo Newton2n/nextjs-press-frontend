@@ -22,9 +22,9 @@ import { useRouter } from "next/navigation";
 // Navigation items configuration
 const navItems = [
   { label: "Home", href: "/" },
+  { label: "News", href: "/news" },
+  { label: "Premium", href: "/premium" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Contact", href: "/contact" },
 ];
 
 // User menu items configuration

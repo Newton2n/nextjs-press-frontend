@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { PremiumBadge } from "@/components/ui/premium-badge";
 import { Calendar, User, MessageCircle } from "lucide-react";
 
 interface PostCardProps {
@@ -15,6 +16,7 @@ interface PostCardProps {
   status: "PUBLISHED" | "DRAFT" | "ARCHIVED";
   tags?: string[];
   commentCount?: number;
+  isPremium?: boolean;
 }
 
 const statusColors = {
@@ -23,16 +25,19 @@ const statusColors = {
   ARCHIVED: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200",
 };
 
-export function PostCard({ id, title, excerpt, author, publishedDate, status, tags = [], commentCount = 0 }: PostCardProps) {
+export function PostCard({ id, title, excerpt, author, publishedDate, status, tags = [], commentCount = 0, isPremium = false }: PostCardProps) {
   return (
     <Link href={`/news/${id}`}>
       <Card className="overflow-hidden hover:shadow-md transition-shadow duration-300 border border-border cursor-pointer h-full">
         <div className="p-6 space-y-4">
-          {/* Status Badge */}
-          <div className="flex items-center justify-between gap-2">
-            <Badge className={statusColors[status]}>
-              {status}
-            </Badge>
+          {/* Status Badge and Premium Badge */}
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2">
+              <Badge className={statusColors[status]}>
+                {status}
+              </Badge>
+              {isPremium && <PremiumBadge size="sm" />}
+            </div>
             {commentCount > 0 && (
               <span className="flex items-center gap-1 text-xs text-muted-foreground">
                 <MessageCircle className="w-3 h-3" />

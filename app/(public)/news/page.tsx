@@ -14,6 +14,7 @@ const mockPosts = [
     status: "PUBLISHED" as const,
     tags: ["Next.js", "Web Development", "React"],
     commentCount: 12,
+    isPremium: true,
   },
   {
     id: "2",
@@ -34,6 +35,7 @@ const mockPosts = [
     status: "PUBLISHED" as const,
     tags: ["Design", "Systems", "Frontend"],
     commentCount: 15,
+    isPremium: false,
   },
   {
     id: "4",
@@ -64,6 +66,7 @@ const mockPosts = [
     status: "PUBLISHED" as const,
     tags: ["CSS", "Frontend", "Design"],
     commentCount: 20,
+    isPremium: true,
   },
 ];
 
