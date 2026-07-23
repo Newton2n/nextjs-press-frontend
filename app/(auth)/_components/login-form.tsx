@@ -23,10 +23,10 @@ export default function LoginForm() {
   useEffect(() => {
     router.refresh();
     if (!state) return;
-    if (state.success) {
-      toast.success("User Login successfully", { position: "top-center" });
-      router.replace("/");
-    }
+    // if (state.success) {
+    //   toast.success("User Login successfully", { position: "top-center" });
+    //   router.replace("/");
+    // }
     console.log("state.success", state.success);
     if (!state.success) {
       toast.error("Sorry can not login", { position: "top-center" });

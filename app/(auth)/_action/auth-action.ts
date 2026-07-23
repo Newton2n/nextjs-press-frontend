@@ -2,6 +2,8 @@
 
 import { cookies } from "next/headers";
 import { RegisterFormType } from "../types";
+import Jwt, { JwtPayload } from "jsonwebtoken";
+import { redirect } from "next/navigation";
 
 type LoginFormType = {
   success: boolean;
@@ -45,6 +47,16 @@ export const loginAction = async (
     });
 
     console.log(cookie.getAll(), "all cookies");
+    const userDetails = Jwt.decode(result.data.accessToken) as JwtPayload;
+    console.log(userDetails, "decoded jwt token");
+    if (userDetails.role === "USER") {
+      redirect("/dashboard");
+    } else if (userDetails.role === "ADMIN") {
+      redirect("/admin-dashboard");
+    }
+    if (userDetails.role === "AUTHOR") {
+      redirect("/author-dashboard");
+    }
   }
 
   return result;
