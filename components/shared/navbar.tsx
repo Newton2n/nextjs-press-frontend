@@ -30,8 +30,8 @@ const navItems = [
 
 // User menu items configuration
 const userMenuItems = [
-  { label: "Profile", icon: User, action: "profile" },
-  { label: "Settings", icon: Settings, action: "settings" },
+  { label: "My Profile", icon: User, href: "/profile/user-1", action: "profile" },
+  { label: "Create Post", icon: Settings, href: "/create-post", action: "create" },
 ];
 
 type NavbarProps = {
@@ -131,13 +131,16 @@ export function Navbar({ user }: NavbarProps) {
                 {userMenuItems.map((item) => {
                   const Icon = item.icon;
                   return (
-                    <DropdownMenuItem
+                    <Link
                       key={item.action}
-                      // onClick={() => handleUserMenuAction(item.action)}
+                      href={item.href || "#"}
+                      className="block w-full"
                     >
-                      <Icon className="w-4 h-4 mr-2" />
-                      <span>{item.label}</span>
-                    </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Icon className="w-4 h-4 mr-2" />
+                        <span>{item.label}</span>
+                      </DropdownMenuItem>
+                    </Link>
                   );
                 })}
                 <DropdownMenuSeparator />
