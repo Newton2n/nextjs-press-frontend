@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail, Github, Linkedin, Twitter } from "lucide-react";
+import { Mail, Code2, Linkedin, Twitter } from "lucide-react";
 
 const footerLinks = [
   {
@@ -30,7 +30,7 @@ const footerLinks = [
 
 const socialLinks = [
   { icon: Twitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: Github, href: "https://github.com", label: "GitHub" },
+  { icon: Code2, href: "https://github.com", label: "GitHub" },
   { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
   { icon: Mail, href: "mailto:hello@prismapress.com", label: "Email" },
 ];
