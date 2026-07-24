@@ -1,29 +1,42 @@
-import { NewsHeader } from "../_components/news-header";
 import { PostCard } from "../_components/post-card";
 import { Footer } from "../_components/footer";
 import { TPost } from "@/types";
 import { getNormalPosts } from "../_action/get-posts";
 import { Suspense } from "react";
+import SearchBox from "../_components/search-box";
+import { PageHeader } from "../_components/news-page-header";
 
-export default async function NewsPage() {
-  const posts = await getNormalPosts();
+export default async function NewsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | undefined }>;
+}) {
+  const query = await searchParams;
+  console.log(query, "query param in news page");
+  const posts = await getNormalPosts({ query });
   const normalPosts: TPost[] = posts.data;
 
   return (
     <main className="flex flex-col min-h-screen">
       <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8 bg-background">
         <div className="max-w-7xl mx-auto space-y-12">
-          <NewsHeader />
+          <PageHeader
+            title="Latest Stories"
+            description="Discover stories, insights, and ideas from our community"
+          />
+          <SearchBox />
 
           {/* Content Full Width Section */}
           <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <Suspense fallback={<div>Data is loading</div>}>
-                {normalPosts.map((post) => (
-                  <PostCard key={post.id} {...post} />
-                ))}
-              </Suspense>
-            </div>
+            {normalPosts && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <Suspense fallback={<div>Data is loading</div>}>
+                  {normalPosts.map((post) => (
+                    <PostCard key={post.id} {...post} />
+                  ))}
+                </Suspense>
+              </div>
+            )}
 
             {/* Pagination */}
             <div className="flex items-center justify-center gap-2 pt-8">
