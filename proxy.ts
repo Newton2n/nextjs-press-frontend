@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtUtils } from "./utils/jwt";
 import { getAccessToken } from "./service/refresh-token";
+import { checkSubscriptionStatus } from "./app/(public)/_action/check-subscripton-status";
 
 // This function can be marked `async` if using `await` inside
 const AUTH_ROUTE = ["/login", "/register"];
@@ -84,9 +85,9 @@ export async function proxy(request: NextRequest) {
     (route) => route === reqPathName || reqPathName.startsWith(route + "/"),
   );
 
-  // if (!isAuthRoute && !isPublicRoute && !verifyAccessToken?.success) {
-  //   return NextResponse.redirect(new URL("/login", request.url));
-  // }
+  if (!isAuthRoute && !isPublicRoute && !verifyAccessToken?.success) {
+    return NextResponse.redirect(new URL("/login", request.url));
+  }
 
   if (verifyAccessToken?.success && userRole) {
     if (reqPathName.startsWith("/dashboard") && userRole !== "USER") {
@@ -97,6 +98,14 @@ export async function proxy(request: NextRequest) {
     }
     if (reqPathName.startsWith("/author-dashboard") && userRole !== "AUTHOR") {
       return NextResponse.redirect(new URL("/not-found", request.url));
+    }
+  }
+
+  if (reqPathName === "/premium") {
+    const subscription = await checkSubscriptionStatus();
+    console.log("subscription status in proxy ", subscription);
+    if (subscription.subscriptionStatus !== "ACTIVE") {
+      return NextResponse.redirect(new URL("/pricing", request.url));
     }
   }
 
