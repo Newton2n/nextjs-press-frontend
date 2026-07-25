@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
+import React from "react";
 
 const SearchBox = () => {
   const params = useSearchParams();
@@ -11,14 +12,17 @@ const SearchBox = () => {
   const searchQuery = params.get("search") ? params.get("search") : "";
   console.log(params, "params in client component", searchQuery);
 
+  // const searchRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const searchRef = React.useRef<ReturnType<typeof setTimeout>>(null);
   const handleSubmit = (searchValue: string) => {
-    //     if (searchRef.current) {
-    //   clearTimeout(searchRef.current);
-    // }
-    // searchRef.current = setTimeout(() => {
-    //   router.replace(`${pathName}?search=${searchValue}`);
-    // }, 500);
-    return router.replace(`${pathName}?search=${searchValue}`);
+    //debounce the search input to avoid too many requests
+    if (searchRef.current) {
+      clearTimeout(searchRef.current);
+    }
+    searchRef.current = setTimeout(() => {
+      router.replace(`${pathName}?search=${searchValue}`);
+    }, 600);
   };
 
   return (
