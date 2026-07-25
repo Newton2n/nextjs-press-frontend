@@ -101,8 +101,13 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  if (reqPathName === "/premium") {
-    const subscription = await checkSubscriptionStatus();
+  const subscription = await checkSubscriptionStatus();
+  if (reqPathName === "/pricing" || reqPathName === "/checkout") {
+    if (subscription.subscriptionStatus === "ACTIVE") {
+      return NextResponse.rewrite(new URL("/subscription-active", request.url));
+    }
+  }
+  if (reqPathName === "/premium" || reqPathName === "/subscription-active") {
     console.log("subscription status in proxy ", subscription);
     if (subscription.subscriptionStatus !== "ACTIVE") {
       return NextResponse.redirect(new URL("/pricing", request.url));
