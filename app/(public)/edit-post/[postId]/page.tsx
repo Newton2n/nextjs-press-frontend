@@ -1,10 +1,9 @@
-"use client";
-
 import { PostForm } from "../../_components/post-form";
 import { Card } from "@/components/ui/card";
 import { Pencil } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { getPostDetails } from "../../_action/post-action";
+import getMe from "@/service/get-me";
 
 interface Post {
   id: string;
@@ -23,27 +22,27 @@ interface Post {
   commentCount: number;
 }
 
-export default function EditPostPage({
+export default async function EditPostPage({
   params,
 }: {
-  params: { postId: string };
+  params: Promise<{ postId: string }>;
 }) {
-  const [post, setPost] = useState<Post | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { postId } = await params;
 
-  useEffect(() => {
-    // Fetch post from localStorage
-    const posts = JSON.parse(localStorage.getItem("posts") || "[]");
-    const foundPost = posts.find((p: Post) => p.id === params.postId);
-    setPost(foundPost || null);
-    setLoading(false);
-  }, [params.postId]);
+  const userDetails = await getMe();
 
-  if (loading) {
+  const post: Post = await getPostDetails(postId);
+
+
+  if (post?.author?.id !== userDetails?.data?.id) {
     return (
       <main className="py-12 px-4 sm:px-6 lg:px-8 bg-background">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-muted-foreground">Loading post...</p>
+        <div className="max-w-4xl mx-auto">
+          <div className="border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-800 rounded-lg p-6 text-center">
+            <p className="text-red-600 dark:text-red-400 font-semibold mb-4">
+              Post not found or you are not authorized to edit this post
+            </p>
+          </div>
         </div>
       </main>
     );
@@ -58,7 +57,7 @@ export default function EditPostPage({
               Post not found
             </p>
             <Link
-              href="/profile/user-1"
+              href={`/profile/${userDetails?.id}`}
               className="text-primary hover:underline font-medium"
             >
               ← Back to Profile
@@ -75,7 +74,7 @@ export default function EditPostPage({
         {/* Header */}
         <div className="mb-12">
           <Link
-            href={`/profile/${post.author.id}`}
+            href={`/profile/${post?.author?.id}`}
             className="text-primary hover:underline text-sm font-medium mb-4 inline-block"
           >
             ← Back to Profile
@@ -95,10 +94,7 @@ export default function EditPostPage({
 
         {/* Form Card */}
         <Card className="border border-border p-8">
-          <PostForm
-            post={post}
-            isEditing={true}
-          />
+          <PostForm post={post} isEditing={true} />
         </Card>
       </div>
     </main>

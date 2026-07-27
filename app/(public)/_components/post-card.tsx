@@ -26,7 +26,7 @@ export function PostCard({
   title,
   content,
   author,
-  created_at,
+  createdAt,
   status,
   tags = [],
   isPremium = false,
@@ -106,7 +106,7 @@ export function PostCard({
           </p>
 
           {/* Tags */}
-          {tags.length > 0 && (
+          {/* {tags.length > 0 && (
             <div className="flex flex-wrap gap-2 pt-2">
               {tags.slice(0, 3).map((tag) => (
                 <span
@@ -123,7 +123,7 @@ export function PostCard({
                 </span>
               )}
             </div>
-          )}
+          )} */}
 
           {/* Footer */}
           <div className="flex items-center justify-between pt-4 mt-4 border-t border-border">
@@ -142,11 +142,11 @@ export function PostCard({
             <div className="flex items-center gap-1 text-xs text-muted-foreground">
               <Calendar className="w-3 h-3" />
 
-              {new Date(created_at).toLocaleDateString("en-US", {
+              {/* {new Date(createdAt).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
                 year: "numeric",
-              })}
+              })} */}
             </div>
           </div>
         </div>

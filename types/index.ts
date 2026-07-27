@@ -14,8 +14,8 @@ export type TPost = {
   authorId: string;
   tags: string[];
   views: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
   isPremium: boolean;
   author: {
     id: string;

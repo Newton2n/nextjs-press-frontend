@@ -81,7 +81,7 @@ type StateType = {
   success: boolean;
   message: string;
 };
-export const getPostDetails = async (postId: string): Promise<TPost> => {
+export const getPostDetails = async (postId: string) => {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   if (!accessToken) {
@@ -164,9 +164,9 @@ export const updatePostAction = async (
   formData: FormData,
 ) => {
   console.log(postId);
-  const title = formData.get("title");
-  const content = formData.get("content");
-  const thumbnail = formData.get("thumbnail");
+  const title = formData.get("title") ?? "";
+  const content = formData.get("content") ?? "";
+  const thumbnail = formData.get("thumbnail") ?? "";
   const tags = formData.get("tags")
     ? (formData.get("tags") as string).split(",")
     : [];
@@ -186,8 +186,8 @@ export const updatePostAction = async (
       message: "sorry you are not log in",
     };
   }
-  const res = await fetch(`${process.env.BACKEND_URL}/api/posts`, {
-    method: "POST",
+  const res = await fetch(`${process.env.BACKEND_URL}/api/posts/${postId}`, {
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
       Cookie: `accessToken=${accessToken}`,
