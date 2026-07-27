@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { ArrowUpRight, MessageSquare, Heart } from "lucide-react";
 
 const activities = [
@@ -68,7 +67,7 @@ export function ActivityTable() {
               key={activity.id}
               className="flex items-center gap-4 pb-4 border-b border-border last:pb-0 last:border-b-0 hover:bg-muted/30 -mx-2 px-2 py-2 rounded transition-colors"
             >
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                 <Icon className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1 min-w-0">
