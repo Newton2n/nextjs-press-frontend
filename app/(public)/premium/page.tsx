@@ -1,7 +1,7 @@
 import { PostCard } from "../_components/post-card";
 import { Footer } from "../_components/footer";
 import { TPost } from "@/types";
-import { getPremiumPosts } from "../_action/get-premium-post";
+import {getPremiumPosts} from "../_action/post-action";
 import { Suspense } from "react";
 import SearchBox from "../_components/search-box";
 import { PageHeader } from "../_components/news-page-header";

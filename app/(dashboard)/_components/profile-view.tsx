@@ -93,9 +93,8 @@ export default function ProfileView({
                     <Image
                       src={user.profile.profilePhoto}
                       alt={user.name}
-                      fill
-                      sizes="96px"
-                      className="object-cover"
+                      height={100}
+                      width={100}
                     />
                   ) : (
                     <User className="h-10 w-10 text-primary" />
@@ -284,7 +283,7 @@ export default function ProfileView({
                     </p>
 
                     {/* Tags */}
-                    {post.tags.length > 0 && (
+                    {/* {post.tags.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
                         {post.tags.slice(0, 3).map((tag) => (
                           <span
@@ -295,7 +294,7 @@ export default function ProfileView({
                           </span>
                         ))}
                       </div>
-                    )}
+                    )} */}
 
                     {/* Post Stats */}
                     <div className="mt-5 flex items-center gap-4 border-t pt-4 text-xs text-muted-foreground">

@@ -26,8 +26,6 @@ export default function CreatePostPage() {
         {/* Form Card */}
         <Card className="border border-border p-8">
           <PostForm
-            authorId="user-1"
-            authorName="John Doe"
           />
         </Card>
 

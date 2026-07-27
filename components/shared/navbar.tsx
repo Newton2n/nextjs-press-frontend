@@ -30,7 +30,7 @@ const navItems = [
 
 // User menu items configuration
 const userMenuItems = [
-  { label: "My Profile", icon: User, href: "/profile/user-1", action: "profile" },
+  { label: "My Profile", icon: User, href: "/dashboard/profile/me", action: "profile" },
   { label: "Create Post", icon: Settings, href: "/create-post", action: "create" },
 ];
 
