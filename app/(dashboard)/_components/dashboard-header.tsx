@@ -1,77 +1,69 @@
-import { BarChart3, FileText, MessageSquare, Users } from "lucide-react";
+'use client';
 
-export function DashboardHeader() {
-  return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-        <p className="text-muted-foreground mt-1">Welcome back! Here&apos;s what&apos;s happening with your blog.</p>
-      </div>
+import { Bell, Settings, LogOut } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          icon={FileText}
-          label="Total Posts"
-          value="24"
-          change="+2 this week"
-          color="text-blue-600 dark:text-blue-400"
-          bgColor="bg-blue-100 dark:bg-blue-900/30"
-        />
-        <StatCard
-          icon={Users}
-          label="Active Readers"
-          value="1,234"
-          change="+12% from last week"
-          color="text-green-600 dark:text-green-400"
-          bgColor="bg-green-100 dark:bg-green-900/30"
-        />
-        <StatCard
-          icon={MessageSquare}
-          label="Total Comments"
-          value="342"
-          change="+8 today"
-          color="text-purple-600 dark:text-purple-400"
-          bgColor="bg-purple-100 dark:bg-purple-900/30"
-        />
-        <StatCard
-          icon={BarChart3}
-          label="Page Views"
-          value="12.5K"
-          change="+5% from last month"
-          color="text-orange-600 dark:text-orange-400"
-          bgColor="bg-orange-100 dark:bg-orange-900/30"
-        />
-      </div>
-    </div>
-  );
+interface DashboardHeaderProps {
+  user: {
+    name: string;
+    email: string;
+    role: 'ADMIN' | 'AUTHOR' | 'USER';
+  };
 }
 
-function StatCard({
-  icon: Icon,
-  label,
-  value,
-  change,
-  color,
-  bgColor,
-}: {
-  icon: any;
-  label: string;
-  value: string;
-  change: string;
-  color: string;
-  bgColor: string;
-}) {
+export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
-    <div className="border border-border rounded-lg p-6 bg-card hover:border-primary/50 transition-colors">
-      <div className="flex items-center justify-between mb-4">
-        <div className={`${bgColor} p-3 rounded-lg`}>
-          <Icon className={`${color} w-6 h-6`} />
+    <div className="border-b border-border bg-card">
+      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex-1">
+          <p className="text-sm text-muted-foreground">Welcome back</p>
+          <p className="text-lg font-semibold">{user.name}</p>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {/* Notifications */}
+          <button className="relative p-2 text-muted-foreground hover:text-foreground transition-colors">
+            <Bell className="w-5 h-5" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+          </button>
+
+          {/* User Menu */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-muted transition-colors">
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm font-semibold">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <span className="text-sm font-medium hidden sm:inline">{user.name}</span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <div className="px-2 py-1.5">
+                <p className="text-sm font-semibold">{user.name}</p>
+                <p className="text-xs text-muted-foreground">{user.email}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Role: <span className="font-medium">{user.role}</span>
+                </p>
+              </div>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="gap-2">
+                <Settings className="w-4 h-4" />
+                <span>Settings</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="gap-2">
+                <LogOut className="w-4 h-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
-      <p className="text-sm text-muted-foreground mb-1">{label}</p>
-      <p className="text-2xl font-bold text-foreground mb-2">{value}</p>
-      <p className="text-xs text-muted-foreground">{change}</p>
     </div>
   );
 }
