@@ -1,19 +1,15 @@
-import { Navbar } from "@/components/shared/navbar";
+import { redirect } from "next/navigation";
 import getMe from "@/service/get-me";
-import React from "react";
+import { DashboardShell } from "./_components/dashboard-shell";
 
 const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getMe();
-  return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Navbar user={user} />
-      <div className="flex-1 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {children}
-        </div>
-      </div>
-    </div>
-  );
+
+  if (!user?.success || !user?.data) {
+    redirect("/login");
+  }
+
+  return <DashboardShell user={user.data}>{children}</DashboardShell>;
 };
 
 export default DashboardLayout;

@@ -3,9 +3,10 @@
 import { cookies } from "next/headers";
 
 async function getMe() {
-  const cookie = await cookies();
-  const accessToken = cookie.get("accessToken");
-  if (!accessToken) {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get("accessToken");
+
+  if (!accessToken?.value) {
     return {
       success: false,
       message: "Sorry user not login",
@@ -14,8 +15,8 @@ async function getMe() {
 
   const res = await fetch(`${process.env.BACKEND_URL}/api/users/me`, {
     headers: {
-      Cookie: `${accessToken}`,
-      authorization: `${accessToken?.value}`,
+      Cookie: `accessToken=${accessToken.value}`,
+      Authorization: `Bearer ${accessToken.value}`,
     },
     cache: "force-cache",
     next: {
@@ -24,8 +25,6 @@ async function getMe() {
     },
   });
   const user = await res.json();
-  console.log(user, "user");
-  console.log("access token", accessToken?.value);
   return user;
 }
 
