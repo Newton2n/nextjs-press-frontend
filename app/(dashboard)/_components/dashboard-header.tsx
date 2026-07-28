@@ -1,6 +1,6 @@
 'use client';
 
-import { Bell, Settings, LogOut } from 'lucide-react';
+import { Bell, LogOut } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { logout } from '@/service/logout';
 
 interface DashboardHeaderProps {
   user: {
@@ -53,12 +54,11 @@ export function DashboardHeader({ user }: DashboardHeaderProps) {
               </div>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="gap-2">
-                <Settings className="w-4 h-4" />
-                <span>Settings</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="gap-2">
                 <LogOut className="w-4 h-4" />
-                <span>Logout</span>
+                <button onClick={async(e)=>{
+                e.preventDefault()
+                await logout()
+                }}>Logout</button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

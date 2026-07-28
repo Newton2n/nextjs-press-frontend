@@ -26,7 +26,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: "USER" | "ADMIN";
+  role: "USER" | "ADMIN" | "AUTHOR";
   activeStatus: "ACTIVE" | "INACTIVE";
   createdAt: string;
   profile: Profile | null;
@@ -73,10 +73,8 @@ export default function ProfileView({
 }: ProfileViewProps) {
   const premiumPosts = posts && posts.filter((post) => post.isPremium).length;
 
-  const totalComments = posts && posts.reduce(
-    (total, post) => total + post._count.comment,
-    0,
-  );
+  const totalComments =
+    posts && posts.reduce((total, post) => total + post._count.comment, 0);
 
   return (
     <main className="min-h-screen bg-background">
@@ -275,7 +273,16 @@ export default function ProfileView({
                     </div>
 
                     <h3 className="mt-3 line-clamp-2 text-lg font-semibold">
-                      {post.title}
+                      <Link
+                        href={
+                          post.isPremium
+                            ? `/premium/${post.id}`
+                            : `/news/${post.id}`
+                        }
+                        className="hover:text-primary transition-colors"
+                      >
+                        {post.title}
+                      </Link>
                     </h3>
 
                     <p className="mt-2 line-clamp-3 text-sm leading-6 text-muted-foreground">

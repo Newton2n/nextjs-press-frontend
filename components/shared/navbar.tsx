@@ -14,12 +14,7 @@ import { Button } from "../ui/button";
 import { logout } from "@/service/logout";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { toast } from "sonner";
-// import { Button } from "../ui/button";
 
-// Navigation items configuration
 const navItems = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
@@ -28,10 +23,13 @@ const navItems = [
   { label: "About", href: "/about" },
 ];
 
-// User menu items configuration
 const userMenuItems = [
-  { label: "My Profile", icon: User, href: "/dashboard/profile/me", action: "profile" },
-  { label: "Create Post", icon: Settings, href: "/create-post", action: "create" },
+  {
+    label: "Create Post",
+    icon: Settings,
+    href: "/create-post",
+    action: "create",
+  },
 ];
 
 type NavbarProps = {
@@ -43,7 +41,7 @@ type NavbarProps = {
       name: string;
       email: string;
       activeStatus: string;
-      role: string;
+      role: "USER" | "ADMIN" | "AUTHOR";
       createdAt: string;
       updatedAt: string;
       profile: {
@@ -60,28 +58,34 @@ type NavbarProps = {
 
 export function Navbar({ user }: NavbarProps) {
   const router = useRouter();
-  // const [isLogout, setIsLogout] = useState(false);
+
   const handleUserMenuAction = async (actionName: string) => {
     if (actionName === "logout") {
       await logout();
-      // setIsLogout(true);
-        toast.success("User logout successfully", {
+
+      toast.success("User logout successfully", {
         position: "top-center",
       });
-      router.refresh()
-      router.replace("/login")
+
+      router.replace("/login");
+      router.refresh();
     }
   };
 
-  // useEffect(() => {
-  //   if (isLogout) {
-  //     toast.success("User logout successfully", {
-  //       position: "top-center",
-  //     });
-  //     router.replace("/login")
-  //   }
-  // }, [isLogout,router]);
-  console.log("user in navbar", user);
+  const getDashboardUrl = () => {
+    switch (user.data.role) {
+      case "ADMIN":
+        return "/admin-dashboard";
+
+      case "AUTHOR":
+        return "/author-dashboard";
+
+      case "USER":
+      default:
+        return "/dashboard";
+    }
+  };
+
   return (
     <nav className="border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -116,24 +120,38 @@ export function Navbar({ user }: NavbarProps) {
                   </div>
                 </div>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col gap-1">
                     <p className="text-sm font-medium">
-                      {user.data?.name || "john"}
+                      {user.data?.name || "John"}
                     </p>
+
                     <p className="text-xs text-muted-foreground">
-                      {user.data?.email || "john@"}
+                      {user.data?.email || "john@example.com"}
                     </p>
                   </div>
                 </DropdownMenuLabel>
+
                 <DropdownMenuSeparator />
+
+                {/* Role-Based Dashboard */}
+                <Link href={getDashboardUrl()} className="block w-full">
+                  <DropdownMenuItem>
+                    <User className="w-4 h-4 mr-2" />
+                    <span>Dashboard</span>
+                  </DropdownMenuItem>
+                </Link>
+
+                {/* Other Menu Items */}
                 {userMenuItems.map((item) => {
                   const Icon = item.icon;
+
                   return (
                     <Link
                       key={item.action}
-                      href={item.href || "#"}
+                      href={item.href}
                       className="block w-full"
                     >
                       <DropdownMenuItem>
@@ -143,11 +161,12 @@ export function Navbar({ user }: NavbarProps) {
                     </Link>
                   );
                 })}
+
                 <DropdownMenuSeparator />
+
+                {/* Logout */}
                 <DropdownMenuItem
-                  onClick={async () => {
-                    await handleUserMenuAction("logout");
-                  }}
+                  onClick={() => handleUserMenuAction("logout")}
                 >
                   <LogOut className="w-4 h-4 mr-2" />
                   <span>Log out</span>
@@ -155,7 +174,7 @@ export function Navbar({ user }: NavbarProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link href={"/login"}>
+            <Link href="/login">
               <Button className="cursor-pointer">Login</Button>
             </Link>
           )}

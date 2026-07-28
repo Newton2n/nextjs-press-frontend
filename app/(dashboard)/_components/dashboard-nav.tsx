@@ -2,7 +2,6 @@ import {
   LayoutDashboard,
   FileText,
   Users,
-  Settings,
   User,
   BarChart3,
 } from "lucide-react";
@@ -27,14 +26,14 @@ export const dashboardNav = {
       icon: FileText,
     },
     {
+      title: "Profile",
+      href: "/admin-dashboard/profile",
+      icon: User,
+    },
+    {
       title: "Analytics",
       href: "/admin-dashboard/analytics",
       icon: BarChart3,
-    },
-    {
-      title: "Settings",
-      href: "/admin-dashboard/settings",
-      icon: Settings,
     },
   ],
 
@@ -53,12 +52,7 @@ export const dashboardNav = {
       title: "Profile",
       href: "/author-dashboard/profile",
       icon: User,
-    },
-    {
-      title: "Settings",
-      href: "/author-dashboard/settings",
-      icon: Settings,
-    },
+    }
   ],
 
   USER: [
@@ -71,11 +65,6 @@ export const dashboardNav = {
       title: "My Profile",
       href: "/dashboard/profile/me",
       icon: User,
-    },
-    {
-      title: "Settings",
-      href: "/dashboard/profile/me",
-      icon: Settings,
     },
   ],
 };

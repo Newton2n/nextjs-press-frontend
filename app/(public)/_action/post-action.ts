@@ -1,4 +1,5 @@
 "use server";
+import getMe from "@/service/get-me";
 import { TPost, TPostMeta } from "@/types";
 import { jwtUtils } from "@/utils/jwt";
 import { revalidateTag } from "next/cache";
@@ -126,6 +127,7 @@ export const createPostAction = async (
       message: "sorry you are not log in",
     };
   }
+  const user = await getMe();
   const res = await fetch(`${process.env.BACKEND_URL}/api/posts`, {
     method: "POST",
     headers: {
@@ -153,6 +155,12 @@ export const createPostAction = async (
     });
 
     console.log("post created successfully", result);
+      if (user.data.role === "ADMIN") {
+      redirect("/admin-dashboard/posts");
+    }
+    if (user.data.role === "AUTHOR") {
+      redirect("/author-dashboard/posts");
+    }
     redirect("/dashboard/profile/me");
   }
 
@@ -186,6 +194,7 @@ export const updatePostAction = async (
       message: "sorry you are not log in",
     };
   }
+  const user = await getMe();
   const res = await fetch(`${process.env.BACKEND_URL}/api/posts/${postId}`, {
     method: "PATCH",
     headers: {
@@ -213,6 +222,12 @@ export const updatePostAction = async (
     });
 
     console.log("post created successfully", result);
+    if (user.data.role === "ADMIN") {
+      redirect("/admin-dashboard/posts");
+    }
+    if (user.data.role === "AUTHOR") {
+      redirect("/author-dashboard/posts");
+    }
     redirect("/dashboard/profile/me");
   }
 
