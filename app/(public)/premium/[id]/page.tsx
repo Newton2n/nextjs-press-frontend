@@ -5,16 +5,16 @@ import { SinglePost } from "../../_components/single-post";
 
 interface PageProps {
   params: Promise<{
-    postId: string;
+    id: string;
   }>;
 }
 
-export default async function NewsPostPage({
+export default async function PremiumNewsPostPage({
   params,
 }: PageProps) {
-  const { postId } = await params;
-
-  const response = await getPostDetails(postId);
+  const {id}=await params;
+console.log("post id news",id)
+  const response = await getPostDetails(id);
 
   if (!response?.success || !response.data) {
     notFound();
@@ -23,7 +23,8 @@ export default async function NewsPostPage({
   return (
     <SinglePost
       post={response.data}
-      backHref="/news"
+      backHref="/premium"
+      hasPremiumAccess ={true}
     />
   );
 }

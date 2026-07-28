@@ -82,24 +82,19 @@ type StateType = {
   success: boolean;
   message: string;
 };
-export const getPostDetails = async (postId: string) => {
-  const cookieStore = await cookies();
-  const accessToken = cookieStore.get("accessToken")?.value;
-  if (!accessToken) {
-    return {
-      success: false,
-      message: "Sorry user not login",
-    };
-  }
-  const res = await fetch(`${process.env.BACKEND_URL}/api/posts/${postId}`, {
+export const getPostDetails = async (id: string) => {
+  const res = await fetch(`${process.env.BACKEND_URL}/api/posts/${id}`, {
     headers: {
       "Content-Type": "application/json",
     },
-    cache: "no-store",
+    cache: "force-cache",
+    next :{
+      revalidate : 60 * 60 * 24,
+    }
   });
   const result = await res.json();
   console.log("get post details", result);
-  return result.data;
+  return result
 };
 export const createPostAction = async (
   prevState: StateType,

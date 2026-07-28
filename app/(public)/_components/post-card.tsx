@@ -35,8 +35,9 @@ export function PostCard({
   isFeatured = false,
   thumbnail,
 }: TPost) {
+  const newsLink = isPremium ? `/premium/${id}` : `/news/${id}`;
   return (
-    <Link href={`/news/${id}`} className="block">
+    <Link href={newsLink} className="block">
       <Card
         className={`overflow-hidden border cursor-pointer relative transition-shadow duration-300 hover:shadow-md ${
           isFeatured

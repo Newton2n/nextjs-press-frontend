@@ -15,6 +15,7 @@ export default async function NewsPage({
   console.log(query, "query param in news page");
   const posts = await getNormalPosts({ query });
   const normalPosts: TPost[] = posts.data;
+  console.log("all normal news",normalPosts)
 
   return (
     <main className="flex flex-col min-h-screen">

@@ -19,8 +19,7 @@ const navItems = [
   { label: "Home", href: "/" },
   { label: "News", href: "/news" },
   { label: "Premium", href: "/premium" },
-  { label: "Subscribe", href: "/pricing" },
-  { label: "About", href: "/about" },
+  { label: "Subscribe", href: "/pricing" }
 ];
 
 const userMenuItems = [
