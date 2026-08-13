@@ -160,21 +160,7 @@ The application is organized around these core screens:
 | **Admin dashboard** | `/admin-dashboard` | Provides administrative post and profile controls. |
 | **Login and register** | `/login`, `/register` | Handles account access and new user registration. |
 
-### Screenshots
 
-Add screenshots or a demo GIF to a `screenshots/` directory and reference the most important screens here:
-
-```md
-<p align="center">
-  <img src="screenshots/home.png" alt="Prisma Press home page" width="48%" />
-  <img src="screenshots/news.png" alt="Prisma Press news feed" width="48%" />
-</p>
-
-<p align="center">
-  <img src="screenshots/article.png" alt="Prisma Press article details" width="48%" />
-  <img src="screenshots/dashboard.png" alt="Prisma Press dashboard" width="48%" />
-</p>
-```
 
 ## Contributing
 
