@@ -1,56 +1,67 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+"use client";
+
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, ChevronLeft, ChevronRight, PenLine, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import type { TPost } from "@/types";
 
-export function HeroSection() {
+const platformSlides = [
+  { eyebrow: "A quieter place for good ideas", title: "Stories with room to breathe.", body: "Prisma Press brings thoughtful publishing and curious readers into one beautifully focused space.", href: "/news" },
+  { eyebrow: "For independent voices", title: "Publish what deserves attention.", body: "Write, refine, and share your perspective with tools that stay out of the way.", href: "/register" },
+  { eyebrow: "Read beyond the scroll", title: "Find your next rabbit hole.", body: "Explore essays, reporting, and ideas from a growing community of makers and thinkers.", href: "/news" },
+];
+
+export function HeroSection({ posts }: { posts: TPost[] }) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const slides = posts.length ? posts.slice(0, 3).map((post) => ({ ...post, href: post.isPremium ? `/premium/${post.id}` : `/news/${post.id}`, eyebrow: post.isPremium ? "Prisma Press Premium" : "Featured story", body: post.content })) : platformSlides;
+
+  useEffect(() => {
+    if (reduceMotion || slides.length < 2) return;
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % slides.length), 6500);
+    return () => window.clearInterval(timer);
+  }, [reduceMotion, slides.length]);
+
+  const slide = slides[index] ?? slides[0];
+  const isPost = "id" in slide && "thumbnail" in slide;
+  const go = (direction: number) => setIndex((current) => (current + direction + slides.length) % slides.length);
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="max-w-4xl mx-auto text-center space-y-8">
-        {/* Badge */}
-        <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
-          <span className="text-sm font-medium text-primary">✨ Welcome to Prisma Press</span>
-        </div>
-
-        {/* Headline */}
-        <div className="space-y-4">
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-balance leading-tight text-foreground">
-            The Modern <span className="text-primary">Blog Platform</span> for Writers
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Create, publish, and engage with your audience. A platform built for writers, creators, and publishers who want to share their voice.
-          </p>
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6">
-          <Link href="/register">
-            <Button size="lg" className="gap-2">
-              Start Writing <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-          <Link href="/news">
-            <Button size="lg" variant="outline">
-              Explore Posts
-            </Button>
-          </Link>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-8 pt-12 border-t border-border">
-          <div>
-            <p className="text-3xl font-bold text-primary">10K+</p>
-            <p className="text-sm text-muted-foreground">Active Writers</p>
-          </div>
-          <div>
-            <p className="text-3xl font-bold text-primary">50K+</p>
-            <p className="text-sm text-muted-foreground">Published Posts</p>
-          </div>
-          <div>
-            <p className="text-3xl font-bold text-primary">100K+</p>
-            <p className="text-sm text-muted-foreground">Monthly Readers</p>
-          </div>
+    <section className="relative overflow-hidden border-b border-border bg-muted/25">
+      <div className="mx-auto grid min-h-[620px] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+        <AnimatePresence mode="wait">
+          <motion.div key={`${index}-copy`} initial={reduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -12 }} transition={{ duration: 0.45 }} className="max-w-2xl">
+            <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary"><Sparkles className="size-3.5" /> {slide.eyebrow}</div>
+            <h1 className="max-w-3xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.06em] text-foreground sm:text-7xl">{slide.title}</h1>
+            <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-muted-foreground">{slide.body}</p>
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+              <Button asChild size="lg"><Link href={slide.href}>Explore the press <ArrowRight data-icon="inline-end" /></Link></Button>
+              <Button asChild size="lg" variant="outline"><Link href="/register"><PenLine data-icon="inline-start" /> Start writing</Link></Button>
+            </div>
+            <div className="mt-12 flex items-center gap-4">
+              <div className="flex items-center gap-2" aria-label="Hero slides">
+                {slides.map((_, dot) => <button key={dot} type="button" aria-label={`Show slide ${dot + 1}`} aria-current={dot === index} onClick={() => setIndex(dot)} className={`h-1.5 rounded-full transition-all ${dot === index ? "w-10 bg-primary" : "w-5 bg-border"}`} />)}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" size="icon" aria-label="Previous slide" onClick={() => go(-1)}><ChevronLeft /></Button>
+                <Button variant="outline" size="icon" aria-label="Next slide" onClick={() => go(1)}><ChevronRight /></Button>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+        <div className="relative min-h-[360px]">
+          <div className="absolute inset-0 rounded-[2rem] border border-primary/20 bg-primary/10 [transform:rotate(3deg)]" />
+          <AnimatePresence mode="wait">
+            <motion.div key={`${index}-visual`} initial={reduceMotion ? false : { opacity: 0, scale: .96, rotate: -2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={reduceMotion ? undefined : { opacity: 0, scale: 1.02 }} transition={{ duration: .55 }} className="relative flex min-h-[360px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
+              {isPost && slide.thumbnail ? <Image src={slide.thumbnail as string} alt={slide.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 45vw" priority /> : <div className="flex flex-1 flex-col justify-between bg-primary p-8 text-primary-foreground"><div className="text-8xl font-semibold tracking-[-.12em] opacity-90">P/</div><div><p className="text-sm uppercase tracking-[.2em] opacity-75">The editorial platform</p><p className="mt-3 max-w-sm text-3xl font-semibold leading-tight">Make space for the ideas that stay with you.</p></div></div>}
+              {isPost && <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/80 to-transparent p-7 pt-24 text-background"><p className="text-sm font-medium">{slide.title}</p></div>}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -136,18 +136,12 @@ export const createPostAction = async (
 
   if (result.success) {
     if (result.data.isPremium) {
-      revalidateTag("premium-post", {
-        expire: 0,
-      });
+      revalidateTag("premium-post", "max");
     }
     if (result.data.isPremium === false) {
-      revalidateTag("normal-post", {
-        expire: 0,
-      });
+      revalidateTag("normal-post", "max");
     }
-    revalidateTag("my-post", {
-      expire: 0,
-    });
+    revalidateTag("my-post", "max");
 
     console.log("post created successfully", result);
       if (user.data.role === "ADMIN") {
@@ -203,18 +197,12 @@ export const updatePostAction = async (
 
   if (result.success) {
     if (result.data.isPremium) {
-      revalidateTag("premium-post", {
-        expire: 0,
-      });
+      revalidateTag("premium-post", "max");
     }
     if (result.data.isPremium === false) {
-      revalidateTag("normal-post", {
-        expire: 0,
-      });
+      revalidateTag("normal-post", "max");
     }
-    revalidateTag("my-post", {
-      expire: 0,
-    });
+    revalidateTag("my-post", "max");
 
     console.log("post created successfully", result);
     if (user.data.role === "ADMIN") {
