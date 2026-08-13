@@ -144,13 +144,34 @@ npm run lint     # Run ESLint
 - **Subscriptions:** Pricing and checkout pages communicate with the backend subscription service and expose subscription status to authenticated users.
 - **UI:** Shared layout, navigation, form, table, card, and feedback components keep the experience consistent across public and dashboard routes.
 
-## Screenshots
+## Important Screens
 
-Add screenshots or a demo GIF to a `screenshots/` directory and reference them here:
+The application is organized around these core screens:
+
+| Screen | Route | Description |
+| :--- | :--- | :--- |
+| **Home page** | `/` | Introduces Prisma Press and highlights featured stories. |
+| **News feed** | `/news` | Lets readers browse and search published articles. |
+| **Article details** | `/news/[id]` | Displays the complete article and related content. |
+| **Premium content** | `/premium` | Shows premium stories available to subscribers. |
+| **Pricing** | `/pricing` | Presents subscription plans and upgrade options. |
+| **Create post** | `/create-post` | Gives authors a form for publishing new articles. |
+| **Author dashboard** | `/author-dashboard` | Helps authors manage their posts and profile. |
+| **Admin dashboard** | `/admin-dashboard` | Provides administrative post and profile controls. |
+| **Login and register** | `/login`, `/register` | Handles account access and new user registration. |
+
+### Screenshots
+
+Add screenshots or a demo GIF to a `screenshots/` directory and reference the most important screens here:
 
 ```md
 <p align="center">
   <img src="screenshots/home.png" alt="Prisma Press home page" width="48%" />
+  <img src="screenshots/news.png" alt="Prisma Press news feed" width="48%" />
+</p>
+
+<p align="center">
+  <img src="screenshots/article.png" alt="Prisma Press article details" width="48%" />
   <img src="screenshots/dashboard.png" alt="Prisma Press dashboard" width="48%" />
 </p>
 ```
