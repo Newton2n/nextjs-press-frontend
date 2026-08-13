@@ -11,7 +11,7 @@ export const checkSubscriptionStatus = async () => {
       message: "Sorry user not login",
     };
   }
-  console.log("subscribe check action is running");
+
   const res = await fetch(
     `${process.env.BACKEND_URL}/api/subscription/subscription-status`,
     {

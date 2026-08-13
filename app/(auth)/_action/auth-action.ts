@@ -20,7 +20,7 @@ export const loginAction = async (
 ) => {
   const email = formData.get("email");
   const password = formData.get("password");
-  console.log(email, password);
+  
   const payload = {
     email,
     password,
@@ -35,7 +35,7 @@ export const loginAction = async (
 
   const result = await res.json();
   if (result.success) {
-    console.log("this block is running");
+    
     const cookie = await cookies();
     cookie.set("accessToken", result.data.accessToken, {
       httpOnly: true,
@@ -46,9 +46,9 @@ export const loginAction = async (
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    console.log(cookie.getAll(), "all cookies");
+    
     const userDetails = Jwt.decode(result.data.accessToken) as JwtPayload;
-    console.log(userDetails, "decoded jwt token");
+    
     if (userDetails.role === "USER") {
       redirect("/dashboard");
     } else if (userDetails.role === "ADMIN") {
@@ -88,6 +88,6 @@ export const registerAction = async (
 
   const result = await res.json();
 
-  console.log(result, "register result ");
+
   return result;
 };

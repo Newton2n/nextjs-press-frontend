@@ -13,7 +13,7 @@ export const subscribePremium = async () => {
       message: "Sorry user not login",
     };
   }
-    console.log("subscribe action is running")
+   
   const res = await fetch(`${process.env.BACKEND_URL}/api/subscription/checkout`, {
     method :"POST",
     headers: {

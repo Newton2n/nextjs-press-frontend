@@ -13,7 +13,7 @@ export default async function PremiumNewsPostPage({
   params,
 }: PageProps) {
   const {id}=await params;
-console.log("post id news",id)
+
   const response = await getPostDetails(id);
 
   if (!response?.success || !response.data) {

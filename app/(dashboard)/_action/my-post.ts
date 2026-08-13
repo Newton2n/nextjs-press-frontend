@@ -28,6 +28,6 @@ export const getMyPost = async () => {
     },
   });
   const result = await posts.json()
-  console.log("my posts",result)
+  
   return result.data
 };

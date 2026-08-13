@@ -10,7 +10,7 @@ const SearchBox = () => {
   const router = useRouter();
   const pathName = usePathname();
   const searchQuery = params.get("search") ? params.get("search") : "";
-  console.log(params, "params in client component", searchQuery);
+  
 
   // const searchRef = React.useRef<NodeJS.Timeout | null>(null);
 

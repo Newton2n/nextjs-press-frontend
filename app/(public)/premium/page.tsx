@@ -14,7 +14,7 @@ export default async function PremiumPage({
   searchParams:Promise< { [key: string]: string | undefined }>;
 }) {
   const query = await searchParams;
-  console.log(query, "query param in premium page");
+
   const posts = await getPremiumPosts({query});
   const premiumPosts: TPost[] = posts.data;
   return (

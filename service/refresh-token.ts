@@ -24,6 +24,6 @@ export const getAccessToken = async () => {
   });
 
   const result = await res.json();
-  console.log("refresh token generate request",result)
+
   return result;
 };

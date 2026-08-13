@@ -21,7 +21,7 @@ export const getNormalPosts = async ({
   if (query.search) {
     params.set("search", query.search);
   }
-  console.log("URLSearchParams", params.toString());
+ 
   const res = await fetch(
     `${process.env.BACKEND_URL}/api/posts?${params.toString()}`,
     {
@@ -36,7 +36,7 @@ export const getNormalPosts = async ({
     },
   );
   const result = await res.json();
-  console.log("Normal post fetch request", result);
+ 
   return result;
 };
 
@@ -57,7 +57,7 @@ export const getPremiumPosts = async ({
   if (query.search) {
     params.set("search", query.search);
   }
-  console.log("URLSearchParams", params.toString());
+  
 
   const res = await fetch(
     `${process.env.BACKEND_URL}/api/premium?${params.toString()}`,
@@ -74,7 +74,7 @@ export const getPremiumPosts = async ({
     },
   );
   const result = await res.json();
-  console.log("premium post fetch request", result);
+
   return result;
 };
 
@@ -93,7 +93,7 @@ export const getPostDetails = async (id: string) => {
     }
   });
   const result = await res.json();
-  console.log("get post details", result);
+  
   return result
 };
 export const createPostAction = async (
@@ -109,7 +109,7 @@ export const createPostAction = async (
   const isPremium = formData.get("isPremium") === "on" ? true : false;
 
   const payload = { title, content, thumbnail, tags, isPremium };
-  console.log("payload", payload);
+ 
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const verifyAccessToken = await jwtUtils.verifyToken(
@@ -143,7 +143,7 @@ export const createPostAction = async (
     }
     revalidateTag("my-post", "max");
 
-    console.log("post created successfully", result);
+    
       if (user.data.role === "ADMIN") {
       redirect("/admin-dashboard/posts");
     }
@@ -160,7 +160,7 @@ export const updatePostAction = async (
   prevState: StateType,
   formData: FormData,
 ) => {
-  console.log(postId);
+  
   const title = formData.get("title") ?? "";
   const content = formData.get("content") ?? "";
   const thumbnail = formData.get("thumbnail") ?? "";
@@ -170,7 +170,7 @@ export const updatePostAction = async (
   const isPremium = formData.get("isPremium") === "on" ? true : false;
 
   const payload = { title, content, thumbnail, tags, isPremium };
-  console.log("payload", payload);
+ 
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("accessToken")?.value;
   const verifyAccessToken = await jwtUtils.verifyToken(
@@ -204,7 +204,7 @@ export const updatePostAction = async (
     }
     revalidateTag("my-post", "max");
 
-    console.log("post created successfully", result);
+    
     if (user.data.role === "ADMIN") {
       redirect("/admin-dashboard/posts");
     }

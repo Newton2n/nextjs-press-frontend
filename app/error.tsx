@@ -5,7 +5,7 @@ import { ErrorState } from "@/components/shared/async-state";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   useEffect(() => {
-    console.error("[v0] Route rendering error", error.digest ?? "unknown");
+  
   }, [error]);
 
   return <ErrorState reset={reset} />;

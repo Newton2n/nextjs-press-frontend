@@ -11,7 +11,7 @@ const verifyToken = async (token: string, secretKey: string) => {
   try {
   
     const verify = Jwt.verify(token, secretKey);
-    console.log("verify token in jwt util",verify)
+    
     return {
       success: true,
       data: verify as TJwtPayload,

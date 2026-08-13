@@ -16,7 +16,7 @@ export async function proxy(request: NextRequest) {
   const refreshToken = request.cookies.get("refreshToken")?.value;
   let accessToken = request.cookies.get("accessToken")?.value;
 
-  console.log("access token 1 ", accessToken, "end access token 1");
+ 
 
   let verifyAccessToken = accessToken
     ? await jwtUtils.verifyToken(accessToken, process.env.JWT_ACCESS_SECRET!)
@@ -25,15 +25,9 @@ export async function proxy(request: NextRequest) {
     ? await jwtUtils.verifyToken(refreshToken, process.env.JWT_REFRESH_SECRET!)
     : null;
 
-  console.log("verify access token", verifyAccessToken);
-  console.log("verify refresh  token", verifyRefreshToken);
 
   if (!verifyAccessToken?.success && verifyRefreshToken?.success) {
-    console.log(
-      "new refresh token creating block",
-      verifyRefreshToken?.success,
-      !verifyAccessToken?.success,
-    );
+    
     // if user has verified refreshToken but expired access token then create new
     const result = await getAccessToken();
     if (result.success) {
@@ -51,7 +45,7 @@ export async function proxy(request: NextRequest) {
             process.env.JWT_ACCESS_SECRET!,
           )
         : null;
-      console.log("new access token verify", verifyAccessToken);
+     
     }
   }
 
@@ -63,8 +57,7 @@ export async function proxy(request: NextRequest) {
   if (verifyAccessToken?.success && verifyAccessToken.data) {
     userRole = verifyAccessToken?.data.role;
   }
-  console.log("user role", userRole);
-
+ 
   // if user log in but want to go auth route
   if (verifyAccessToken?.success && AUTH_ROUTE.includes(reqPathName)) {
     if (userRole === "USER") {
@@ -108,7 +101,7 @@ export async function proxy(request: NextRequest) {
     }
   }
   if (reqPathName === "/premium" || reqPathName === "/subscription-active") {
-    console.log("subscription status in proxy ", subscription);
+   
     if (subscription.subscriptionStatus !== "ACTIVE") {
       return NextResponse.redirect(new URL("/pricing", request.url));
     }

@@ -8,7 +8,7 @@ import { subscribePremium } from "../_action/subscribe-premium";
 
 export default function CheckoutPage() {
   const [state, action, pending] = useActionState(subscribePremium, null);
-console.log(state)
+
   return (
     <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 bg-background min-h-screen">
       <div className="max-w-2xl mx-auto">
