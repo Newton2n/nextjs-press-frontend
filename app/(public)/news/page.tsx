@@ -2,9 +2,9 @@ import { PostCard } from "../_components/post-card";
 import { Footer } from "../_components/footer";
 import { TPost } from "@/types";
 import {getNormalPosts} from "../_action/post-action";
-import { Suspense } from "react";
 import SearchBox from "../_components/search-box";
 import { PageHeader } from "../_components/news-page-header";
+import { EmptyState } from "@/components/shared/async-state";
 
 export default async function NewsPage({
   searchParams,
@@ -12,10 +12,8 @@ export default async function NewsPage({
   searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const query = await searchParams;
-  console.log(query, "query param in news page");
   const posts = await getNormalPosts({ query });
-  const normalPosts: TPost[] = posts.data;
-  console.log("all normal news",normalPosts)
+  const normalPosts: TPost[] = posts.data ?? [];
 
   return (
     <main className="flex flex-col min-h-screen">
@@ -29,31 +27,18 @@ export default async function NewsPage({
 
           {/* Content Full Width Section */}
           <div className="space-y-6">
-            {normalPosts && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Suspense fallback={<div>Data is loading</div>}>
-                  {normalPosts.map((post) => (
-                    <PostCard key={post.id} {...post} />
-                  ))}
-                </Suspense>
+            {normalPosts.length > 0 ? (
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {normalPosts.map((post) => (
+                  <PostCard key={post.id} {...post} />
+                ))}
               </div>
+            ) : (
+              <EmptyState
+                title="No stories found"
+                description="Try a different search or check back soon for new reporting from the Prisma Press community."
+              />
             )}
-
-            {/* Pagination */}
-            <div className="flex items-center justify-center gap-2 pt-8">
-              <button className="px-3 py-2 rounded-lg border border-border hover:bg-muted transition-colors text-sm font-medium text-foreground">
-                Previous
-              </button>
-              <button className="px-3 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium">
-                1
-              </button>
-              <button className="px-3 py-2 rounded-lg border border-border hover:bg-muted transition-colors text-sm font-medium text-foreground">
-                2
-              </button>
-              <button className="px-3 py-2 rounded-lg border border-border hover:bg-muted transition-colors text-sm font-medium text-foreground">
-                Next
-              </button>
-            </div>
           </div>
         </div>
       </div>
