@@ -118,6 +118,12 @@
 }
 
 @layer base {
+  button:not(:disabled),
+  a,
+  [role="button"] {
+    cursor: pointer;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

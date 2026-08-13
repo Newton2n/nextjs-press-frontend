@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -10,5 +11,5 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = { title: { default: "Prisma Press", template: "%s | Prisma Press" }, description: "A thoughtful publishing platform for writers, readers, and ideas worth sharing." };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en" className={cn("h-full bg-background antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}><body className="min-h-full flex flex-col"><Toaster />{children}</body></html>;
+  return <html lang="en" suppressHydrationWarning className={cn("h-full bg-background antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}><body className="min-h-full flex flex-col"><ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange><Toaster richColors />{children}</ThemeProvider></body></html>;
 }
