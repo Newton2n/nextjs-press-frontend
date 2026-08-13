@@ -54,9 +54,9 @@ export function DataTable({
           {description && <CardDescription>{description}</CardDescription>}
         </CardHeader>
       )}
-      <CardContent>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+      <CardContent className="min-w-0 px-3 sm:px-6">
+        <div className="w-full overflow-x-auto rounded-md border border-border/60">
+          <table className="min-w-[680px] w-full text-sm">
             <thead>
               <tr className="border-b">
                 {columns.map((column) => (

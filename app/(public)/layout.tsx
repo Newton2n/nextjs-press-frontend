@@ -5,7 +5,7 @@ import React from "react";
 const PublicLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await getMe();
   return (
-    <div className="flex flex-col min-h-screen bg-background">
+    <div className="flex min-h-screen w-full min-w-0 flex-col bg-background">
       <Navbar user={user} />
       <main className="flex-1">
         {children}

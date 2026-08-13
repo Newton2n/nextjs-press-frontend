@@ -11,7 +11,7 @@ export default function NotFound() {
 
       <div className="max-w-md space-y-6">
         {/* Animated Visual Anchor */}
-        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-muted text-muted-foreground animate-bounce duration-1000">
+        <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-2xl bg-muted text-muted-foreground motion-safe:animate-bounce motion-reduce:animate-none duration-1000">
           <FileQuestion className="h-12 w-12" />
         </div>
 

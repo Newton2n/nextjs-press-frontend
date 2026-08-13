@@ -118,6 +118,18 @@
 }
 
 @layer base {
+  html,
+  body {
+    min-width: 320px;
+    overflow-x: clip;
+  }
+
+  button:not(:disabled),
+  a,
+  [role="button"] {
+    cursor: pointer;
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
