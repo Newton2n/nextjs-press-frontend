@@ -118,6 +118,12 @@
 }
 
 @layer base {
+  html,
+  body {
+    min-width: 320px;
+    overflow-x: clip;
+  }
+
   button:not(:disabled),
   a,
   [role="button"] {

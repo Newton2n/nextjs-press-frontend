@@ -31,11 +31,11 @@ export function HeroSection({ posts }: { posts: TPost[] }) {
 
   return (
     <section className="relative overflow-hidden border-b border-border bg-muted/25">
-      <div className="mx-auto grid min-h-[620px] max-w-7xl items-center gap-12 px-6 py-20 lg:grid-cols-[1.05fr_.95fr] lg:px-8">
+      <div className="mx-auto grid min-h-[560px] w-full max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 md:min-h-[620px] lg:grid-cols-[1.05fr_.95fr] lg:gap-12 lg:px-8 lg:py-20">
         <AnimatePresence mode="wait">
           <motion.div key={`${index}-copy`} initial={reduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -12 }} transition={{ duration: 0.45 }} className="max-w-2xl">
             <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.18em] text-primary"><Sparkles className="size-3.5" /> {slide.eyebrow}</div>
-            <h1 className="max-w-3xl text-balance text-5xl font-semibold leading-[1.02] tracking-[-0.06em] text-foreground sm:text-7xl">{slide.title}</h1>
+            <h1 className="max-w-3xl text-balance text-4xl font-semibold leading-[1.04] tracking-[-0.06em] text-foreground sm:text-6xl lg:text-7xl">{slide.title}</h1>
             <p className="mt-7 max-w-xl text-pretty text-lg leading-8 text-muted-foreground">{slide.body}</p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
               <Button asChild size="lg"><Link href={slide.href}>Explore the press <ArrowRight data-icon="inline-end" /></Link></Button>
@@ -52,10 +52,10 @@ export function HeroSection({ posts }: { posts: TPost[] }) {
             </div>
           </motion.div>
         </AnimatePresence>
-        <div className="relative min-h-[360px]">
+        <div className="relative min-h-[280px] sm:min-h-[360px]">
           <div className="absolute inset-0 rounded-[2rem] border border-primary/20 bg-primary/10 [transform:rotate(3deg)]" />
           <AnimatePresence mode="wait">
-            <motion.div key={`${index}-visual`} initial={reduceMotion ? false : { opacity: 0, scale: .96, rotate: -2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={reduceMotion ? undefined : { opacity: 0, scale: 1.02 }} transition={{ duration: .55 }} className="relative flex min-h-[360px] overflow-hidden rounded-[2rem] border border-border bg-card shadow-2xl">
+            <motion.div key={`${index}-visual`} initial={reduceMotion ? false : { opacity: 0, scale: .96, rotate: -2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} exit={reduceMotion ? undefined : { opacity: 0, scale: 1.02 }} transition={{ duration: .55 }} className="relative flex min-h-[280px] overflow-hidden rounded-[1.5rem] sm:min-h-[360px] sm:rounded-[2rem] border border-border bg-card shadow-2xl">
               {isPost && slide.thumbnail ? <Image src={slide.thumbnail as string} alt={slide.title} fill className="object-cover" sizes="(max-width: 1024px) 100vw, 45vw" priority /> : <div className="flex flex-1 flex-col justify-between bg-primary p-8 text-primary-foreground"><div className="text-8xl font-semibold tracking-[-.12em] opacity-90">P/</div><div><p className="text-sm uppercase tracking-[.2em] opacity-75">The editorial platform</p><p className="mt-3 max-w-sm text-3xl font-semibold leading-tight">Make space for the ideas that stay with you.</p></div></div>}
               {isPost && <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/80 to-transparent p-7 pt-24 text-background"><p className="text-sm font-medium">{slide.title}</p></div>}
             </motion.div>

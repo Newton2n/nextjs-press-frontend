@@ -22,13 +22,13 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ user }: DashboardHeaderProps) {
   return (
     <div className="border-b border-border bg-card">
-      <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex min-w-0 items-center justify-between gap-3 px-3 py-3 sm:px-6 sm:py-4 lg:px-8">
         <div className="flex-1">
           <p className="text-sm text-muted-foreground">Welcome back</p>
-          <p className="text-lg font-semibold">{user.name}</p>
+          <p className="truncate text-base font-semibold sm:text-lg">{user.name}</p>
         </div>
 
-        <div className="flex items-center gap-4"><ThemeToggle />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-4"><ThemeToggle />
           {/* Notifications */}
           <button className="relative cursor-pointer p-2 text-muted-foreground hover:text-foreground transition-colors">
             <Bell className="w-5 h-5" />

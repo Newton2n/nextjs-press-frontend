@@ -38,11 +38,11 @@ const socialLinks = [
 export function Footer() {
   return (
     <footer className="bg-muted/20 border-t border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         {/* Main Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="mb-10 grid grid-cols-1 gap-8 sm:grid-cols-2 md:mb-12 md:grid-cols-4">
           {/* Branding */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             <h3 className="text-2xl font-bold text-primary">Prisma Press</h3>
             <p className="text-sm text-muted-foreground">
               A modern platform for writers, creators, and publishers.
@@ -70,7 +70,7 @@ export function Footer() {
           {footerLinks.map((column) => (
             <div key={column.title}>
               <h4 className="font-semibold text-foreground mb-4">{column.title}</h4>
-              <ul className="space-y-3">
+              <ul className="flex flex-col gap-3">
                 {column.links.map((link) => (
                   <li key={link.href}>
                     <Link
@@ -87,7 +87,7 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col items-start justify-between gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:gap-4 sm:pt-8">
           <p className="text-sm text-muted-foreground">
             © 2024 Prisma Press. All rights reserved.
           </p>
