@@ -49,6 +49,7 @@ export function Navbar({ user }: NavbarProps) {
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
 
   const dashboard =
     user.data?.role === "ADMIN"
@@ -69,9 +70,10 @@ export function Navbar({ user }: NavbarProps) {
 
   const handleLogout = async () => {
     try {
-      await logout();
-
+      setProfileOpen(false);
       setOpen(false);
+
+      await logout();
 
       toast.success("You are signed out");
 
@@ -91,7 +93,10 @@ export function Navbar({ user }: NavbarProps) {
       return pathname === "/";
     }
 
-    return pathname === href || pathname.startsWith(`${href}/`);
+    return (
+      pathname === href ||
+      pathname.startsWith(`${href}/`)
+    );
   };
 
   return (
@@ -154,7 +159,11 @@ export function Navbar({ user }: NavbarProps) {
           <ThemeToggle />
 
           {user.success ? (
-            <DropdownMenu>
+            <DropdownMenu
+              open={profileOpen}
+              onOpenChange={setProfileOpen}
+              modal={false}
+            >
               <DropdownMenuTrigger asChild>
                 <Button
                   type="button"
@@ -171,8 +180,9 @@ export function Navbar({ user }: NavbarProps) {
                 align="end"
                 side="bottom"
                 sideOffset={8}
-                className="z-[100] w-60"
+                className="z-[9999] w-60"
               >
+                {/* User information */}
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex min-w-0 flex-col gap-1">
                     <p className="truncate text-sm font-medium leading-none">
@@ -189,20 +199,24 @@ export function Navbar({ user }: NavbarProps) {
 
                 <DropdownMenuSeparator />
 
+                {/* Dashboard */}
                 <DropdownMenuItem asChild>
                   <Link
                     href={dashboard}
                     className="cursor-pointer"
+                    onClick={() => setProfileOpen(false)}
                   >
                     <User className="mr-2 size-4" />
                     <span>Dashboard</span>
                   </Link>
                 </DropdownMenuItem>
 
+                {/* Create post */}
                 <DropdownMenuItem asChild>
                   <Link
                     href="/create-post"
                     className="cursor-pointer"
+                    onClick={() => setProfileOpen(false)}
                   >
                     <PenLine className="mr-2 size-4" />
                     <span>Create post</span>
@@ -211,8 +225,9 @@ export function Navbar({ user }: NavbarProps) {
 
                 <DropdownMenuSeparator />
 
+                {/* Logout */}
                 <DropdownMenuItem
-                  onSelect={handleLogout}
+                  onClick={handleLogout}
                   className="cursor-pointer text-red-600 focus:bg-red-50 focus:text-red-600 dark:focus:bg-red-950"
                 >
                   <LogOut className="mr-2 size-4" />
@@ -268,6 +283,7 @@ export function Navbar({ user }: NavbarProps) {
       {open && (
         <div className="absolute left-0 top-16 z-40 w-full border-b border-border bg-background shadow-lg animate-in fade-in slide-in-from-top-2 duration-200 md:hidden">
           <div className="space-y-1 px-4 py-4">
+            {/* Main navigation */}
             {navItems.map((item) => {
               const isActive = isActiveRoute(item.href);
 
@@ -287,6 +303,7 @@ export function Navbar({ user }: NavbarProps) {
               );
             })}
 
+            {/* User actions */}
             <div className="mt-2 border-t border-border/50 pt-4">
               {user.success ? (
                 <div className="flex flex-col gap-1">

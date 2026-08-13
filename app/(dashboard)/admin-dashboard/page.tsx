@@ -1,182 +1,54 @@
-'use client';
+"use client";
 
-import { Users, FileText, TrendingUp, AlertCircle, Activity, Eye } from 'lucide-react';
-import { StatCard } from '../_components/stat-card';
-import { ActivityFeed, ActivityItem } from '../_components/activity-feed';
-import { DataTable, TableColumn, TableRow } from '../_components/data-table';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { AlertCircle, Eye, FileText, Users } from "lucide-react";
 
-// Demo data - replace with API calls when backend is ready
-const demoAdminStats = [
-  {
-    icon: Users,
-    label: 'Total Users',
-    value: '1,234',
-    change: '+45 this month',
-    variant: 'default' as const,
-  },
-  {
-    icon: FileText,
-    label: 'Total Posts',
-    value: '3,891',
-    change: '+234 this month',
-    variant: 'success' as const,
-  },
-  {
-    icon: Eye,
-    label: 'Total Views',
-    value: '125.4K',
-    change: '+12.5K this week',
-    variant: 'warning' as const,
-  },
-  {
-    icon: AlertCircle,
-    label: 'Flagged Content',
-    value: '23',
-    change: '5 pending review',
-    variant: 'danger' as const,
-  },
-];
+import { StatCard } from "../_components/stat-card";
+import { ActivityFeed } from "../_components/activity-feed";
+import { DataTable } from "../_components/data-table";
 
-const demoSystemActivities: ActivityItem[] = [
-  {
-    id: '1',
-    title: 'New user registration: @john_doe',
-    description: 'Premium plan selected',
-    timestamp: '1 hour ago',
-    type: 'user',
-  },
-  {
-    id: '2',
-    title: 'Content flagged for review',
-    description: 'Post #4521 - Potential copyright issue',
-    timestamp: '2 hours ago',
-    type: 'system',
-  },
-  {
-    id: '3',
-    title: 'Database backup completed',
-    description: 'Daily backup - 45GB',
-    timestamp: '3 hours ago',
-    type: 'system',
-  },
-  {
-    id: '4',
-    title: 'User @jane_smith suspended',
-    description: 'Violation of community guidelines',
-    timestamp: '5 hours ago',
-    type: 'system',
-  },
-  {
-    id: '5',
-    title: 'New premium subscriber',
-    description: '@mike_chen - Annual plan',
-    timestamp: '1 day ago',
-    type: 'user',
-  },
-];
+import type { ActivityItem } from "../_components/activity-feed";
+import type { TableColumn, TableRow } from "../_components/data-table";
 
-const demoRecentUsers: TableRow[] = [
-  {
-    id: '1',
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'Author',
-    joinDate: 'Mar 15, 2024',
-    status: 'Active',
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    email: 'jane@example.com',
-    role: 'Admin',
-    joinDate: 'Feb 10, 2024',
-    status: 'Active',
-  },
-  {
-    id: '3',
-    name: 'Mike Chen',
-    email: 'mike@example.com',
-    role: 'Author',
-    joinDate: 'Jan 5, 2024',
-    status: 'Inactive',
-  },
-  {
-    id: '4',
-    name: 'Sarah Wilson',
-    email: 'sarah@example.com',
-    role: 'User',
-    joinDate: 'Mar 20, 2024',
-    status: 'Active',
-  },
-  {
-    id: '5',
-    name: 'Alex Johnson',
-    email: 'alex@example.com',
-    role: 'Author',
-    joinDate: 'Mar 18, 2024',
-    status: 'Active',
-  },
-];
+import { Badge } from "@/components/ui/badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const demoRecentPosts: TableRow[] = [
-  {
-    id: '1',
-    title: 'Getting Started with React Hooks',
-    author: 'John Doe',
-    status: 'Published',
-    views: '1,234',
-    date: 'Mar 15, 2024',
-  },
-  {
-    id: '2',
-    title: 'Advanced TypeScript Patterns',
-    author: 'Jane Smith',
-    status: 'Published',
-    views: '892',
-    date: 'Mar 14, 2024',
-  },
-  {
-    id: '3',
-    title: 'State Management Best Practices',
-    author: 'Mike Chen',
-    status: 'Flagged',
-    views: '456',
-    date: 'Mar 13, 2024',
-  },
-  {
-    id: '4',
-    title: 'Next.js 14 Deep Dive',
-    author: 'Sarah Wilson',
-    status: 'Published',
-    views: '2,103',
-    date: 'Mar 12, 2024',
-  },
-  {
-    id: '5',
-    title: 'Testing Strategies for React',
-    author: 'Alex Johnson',
-    status: 'Draft',
-    views: '0',
-    date: 'Mar 11, 2024',
-  },
-];
+/* Table columns                                                              */
 
 const userColumns: TableColumn[] = [
-  { key: 'name', label: 'Name' },
-  { key: 'email', label: 'Email' },
-  { key: 'role', label: 'Role' },
-  { key: 'joinDate', label: 'Join Date' },
   {
-    key: 'status',
-    label: 'Status',
+    key: "name",
+    label: "Name",
+  },
+  {
+    key: "email",
+    label: "Email",
+  },
+  {
+    key: "role",
+    label: "Role",
+  },
+  {
+    key: "joinDate",
+    label: "Join Date",
+  },
+  {
+    key: "status",
+    label: "Status",
     render: (value) => (
-      <Badge className={`${
-        value === 'Active'
-          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
-          : 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300'
-      }`}>
+      <Badge
+        variant="outline"
+        className={
+          value === "Active"
+            ? "border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400"
+            : "border-muted bg-muted text-muted-foreground"
+        }
+      >
         {value}
       </Badge>
     ),
@@ -184,111 +56,167 @@ const userColumns: TableColumn[] = [
 ];
 
 const postColumns: TableColumn[] = [
-  { key: 'title', label: 'Title' },
-  { key: 'author', label: 'Author' },
   {
-    key: 'status',
-    label: 'Status',
+    key: "title",
+    label: "Title",
+  },
+  {
+    key: "author",
+    label: "Author",
+  },
+  {
+    key: "status",
+    label: "Status",
     render: (value) => {
-      const colors = {
-        'Published': 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300',
-        'Draft': 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300',
-        'Flagged': 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
+      const statusStyles: Record<string, string> = {
+        Published:
+          "border-green-500/30 bg-green-500/10 text-green-600 dark:text-green-400",
+
+        Draft: "border-muted bg-muted text-muted-foreground",
+
+        Flagged:
+          "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400",
       };
+
       return (
-        <Badge className={colors[value as keyof typeof colors] || colors['Draft']}>
+        <Badge
+          variant="outline"
+          className={
+            statusStyles[value] ?? "border-muted bg-muted text-muted-foreground"
+          }
+        >
           {value}
         </Badge>
       );
     },
   },
-  { key: 'views', label: 'Views' },
-  { key: 'date', label: 'Date' },
+  {
+    key: "views",
+    label: "Views",
+  },
+  {
+    key: "date",
+    label: "Date",
+  },
 ];
+
+/* Dashboard stats                                                            */
+
+// These values will be replaced with real API data later.
+const dashboardStats = [
+  {
+    icon: Users,
+    label: "Total Users",
+    value: "—",
+    change: "User statistics will appear here",
+    variant: "default" as const,
+  },
+  {
+    icon: FileText,
+    label: "Total Posts",
+    value: "—",
+    change: "Post statistics will appear here",
+    variant: "success" as const,
+  },
+  {
+    icon: Eye,
+    label: "Total Views",
+    value: "—",
+    change: "View analytics will appear here",
+    variant: "warning" as const,
+  },
+  {
+    icon: AlertCircle,
+    label: "Flagged Content",
+    value: "—",
+    change: "Moderation statistics will appear here",
+    variant: "danger" as const,
+  },
+];
+
+/* Empty data                                                                 */
+
+// Keep these empty until the real API is connected.
+const recentUsers: TableRow[] = [];
+
+const recentPosts: TableRow[] = [];
+
+const systemActivities: ActivityItem[] = [];
+
+/* Admin Dashboard                                                            */
 
 export default function AdminDashboard() {
   return (
     <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-        <p className="text-muted-foreground mt-2">Manage users, posts, and monitor platform activity.</p>
+      {/* Dashboard heading */}
+
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+
+        <p className="max-w-2xl text-muted-foreground">
+          Manage users, moderate content, monitor platform activity, and
+          maintain Prisma Press from one place.
+        </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {demoAdminStats.map((stat) => (
+      {/* Main platform statistics */}
+
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {dashboardStats.map((stat) => (
           <StatCard key={stat.label} {...stat} />
         ))}
       </div>
 
-      {/* Main Content Grid */}
+      {/* Recent users and admin note */}
+
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Recent Users */}
-        <div className="lg:col-span-2">
+        {/* Recently registered users */}
+
+        <div className="min-w-0 lg:col-span-2">
           <DataTable
             title="Recent Users"
-            description="Latest user registrations and activity"
+            description="Newly registered users will appear here."
             columns={userColumns}
-            rows={demoRecentUsers}
+            rows={recentUsers}
           />
         </div>
 
-        {/* System Health */}
+        {/* Simple admin note instead of system health */}
+
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="w-5 h-5" />
-              System Health
-            </CardTitle>
-            <CardDescription>Platform status</CardDescription>
+            <CardTitle>Admin Note</CardTitle>
+
+            <CardDescription>
+              A quick overview of what you can manage from here.
+            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">Server Status</p>
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                  Healthy
-                </Badge>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">Database</p>
-                <Badge className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                  Connected
-                </Badge>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">API Response</p>
-                <p className="text-sm font-semibold">145ms</p>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium">Storage Used</p>
-                <p className="text-sm font-semibold">245GB / 500GB</p>
-              </div>
-            </div>
+
+          <CardContent>
+            <p className="text-sm leading-6 text-muted-foreground">
+              Keep an eye on new users, published content, and reported posts.
+              Use the admin sections to review activity and take action when
+              necessary.
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Posts */}
+      {/* Recent posts */}
+
       <DataTable
         title="Recent Posts"
-        description="Latest posts across all authors"
+        description="Published, draft, and moderated posts will appear here."
         columns={postColumns}
-        rows={demoRecentPosts}
+        rows={recentPosts}
       />
 
-      {/* System Activity Feed */}
+      {/* Platform activity */}
+
       <ActivityFeed
         title="System Activity"
-        description="Platform-wide activity and events"
-        activities={demoSystemActivities}
+        description="Important platform events and administrative actions will appear here."
+        activities={systemActivities}
       />
     </div>
   );

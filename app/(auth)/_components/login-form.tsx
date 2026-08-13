@@ -1,8 +1,15 @@
 "use client";
+
+import { useActionState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Mail, Lock, ArrowRight } from "lucide-react";
+import { toast } from "sonner";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -11,81 +18,150 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import { loginAction } from "../_action/auth-action";
-import { useActionState, useEffect } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { Mail, Lock, ArrowRight } from "lucide-react";
+
+const demoAccounts = {
+  USER: {
+    email: "user@gmail.com",
+    password: "123456",
+  },
+  AUTHOR: {
+    email: "author@gmail.com",
+    password: "123456",
+  },
+  ADMIN: {
+    email: "admin1@gmail.com",
+    password: "123456",
+  },
+} as const;
 
 export default function LoginForm() {
-  const [state, action, pending] = useActionState(loginAction, false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const demoRole = searchParams.get("demo") as
+    | keyof typeof demoAccounts
+    | null;
+
+  const demoAccount = demoRole
+    ? demoAccounts[demoRole]
+    : undefined;
+
+  const initialState = {
+    success: false,
+    message: "",
+    data: null,
+  };
+
+  const [state, action, pending] = useActionState(
+    loginAction,
+    initialState,
+  );
+
   useEffect(() => {
-    router.refresh();
-    if (!state) return;
-    console.log("state.success", state.success);
-    if (!state.success) {
-      toast.error("Sorry can not login", { position: "top-center" });
+    if (!state?.message) return;
+
+    if (state.success) {
+      toast.success(state.message);
+      router.refresh();
+    } else {
+      toast.error(state.message, {
+        position: "top-center",
+      });
     }
   }, [state, router]);
-  
+
   return (
-    <Card className="w-full max-w-md border border-border shadow-lg">
+    <Card className="w-full border border-border shadow-lg">
       <CardHeader className="space-y-1 pb-6">
-        <CardTitle className="text-2xl">Welcome back</CardTitle>
+        <CardTitle className="text-2xl">
+          Welcome back
+        </CardTitle>
+
         <CardDescription>
           Sign in to your account to continue
         </CardDescription>
       </CardHeader>
+
       <CardContent>
         <form action={action} className="space-y-4">
+          {/* Email */}
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-foreground font-medium">Email</Label>
+            <Label
+              htmlFor="email"
+              className="font-medium text-foreground"
+            >
+              Email
+            </Label>
+
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+
               <Input
                 id="email"
-                type="email"
                 name="email"
+                type="email"
                 placeholder="you@example.com"
+                defaultValue={demoAccount?.email ?? ""}
                 required
-                className="pl-10 border border-border bg-background"
+                disabled={pending}
+                className="border border-border bg-background pl-10"
               />
             </div>
           </div>
+
+          {/* Password */}
           <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password" className="text-foreground font-medium">Password</Label>
-              <Link href="#" className="text-xs text-primary hover:underline">
-                Forgot password?
-              </Link>
-            </div>
+            <Label
+              htmlFor="password"
+              className="font-medium text-foreground"
+            >
+              Password
+            </Label>
+
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input 
-                id="password" 
-                type="password" 
-                name="password" 
+              <Lock className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+
+              <Input
+                id="password"
+                name="password"
+                type="password"
                 placeholder="••••••••"
-                required 
-                className="pl-10 border border-border bg-background"
+                defaultValue={demoAccount?.password ?? ""}
+                minLength={6}
+                required
+                disabled={pending}
+                className="border border-border bg-background pl-10"
               />
             </div>
           </div>
-          <Button type="submit" disabled={pending} className="w-full gap-2 mt-6">
-            {pending ? "Signing in..." : (
+
+          {/* Submit */}
+          <Button
+            type="submit"
+            disabled={pending}
+            className="mt-6 w-full cursor-pointer gap-2"
+          >
+            {pending ? (
+              "Signing in..."
+            ) : (
               <>
-                Sign in <ArrowRight className="w-4 h-4" />
+                Sign in
+                <ArrowRight className="size-4" />
               </>
             )}
           </Button>
         </form>
       </CardContent>
+
       <CardFooter className="flex flex-col gap-3 border-t border-border pt-6">
-        <p className="text-sm text-muted-foreground text-center">
+        <p className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary font-semibold hover:underline">
+          <Link
+            href="/register"
+            className="font-semibold text-primary hover:underline"
+          >
             Sign up
           </Link>
         </p>

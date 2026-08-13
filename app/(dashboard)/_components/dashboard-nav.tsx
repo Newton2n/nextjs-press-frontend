@@ -1,9 +1,7 @@
 import {
-  LayoutDashboard,
   FileText,
-  Users,
+  LayoutDashboard,
   User,
-  BarChart3,
 } from "lucide-react";
 
 export type UserRole = "ADMIN" | "AUTHOR" | "USER";
@@ -16,11 +14,6 @@ export const dashboardNav = {
       icon: LayoutDashboard,
     },
     {
-      title: "Users",
-      href: "/admin-dashboard/users",
-      icon: Users,
-    },
-    {
       title: "Posts",
       href: "/admin-dashboard/posts",
       icon: FileText,
@@ -29,11 +22,6 @@ export const dashboardNav = {
       title: "Profile",
       href: "/admin-dashboard/profile",
       icon: User,
-    },
-    {
-      title: "Analytics",
-      href: "/admin-dashboard/analytics",
-      icon: BarChart3,
     },
   ],
 
@@ -52,7 +40,7 @@ export const dashboardNav = {
       title: "Profile",
       href: "/author-dashboard/profile",
       icon: User,
-    }
+    },
   ],
 
   USER: [
@@ -62,9 +50,9 @@ export const dashboardNav = {
       icon: LayoutDashboard,
     },
     {
-      title: "My Profile",
+      title: "Profile",
       href: "/dashboard/profile/me",
       icon: User,
     },
   ],
-};
+} as const;

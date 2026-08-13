@@ -1,175 +1,240 @@
-'use client';
+"use client";
 
-import { FileText, MessageSquare, TrendingUp, Eye } from 'lucide-react';
-import { StatCard } from '../_components/stat-card';
-import { ActivityFeed, ActivityItem } from '../_components/activity-feed';
-import { DataTable, TableColumn, TableRow } from '../_components/data-table';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import Link from "next/link";
+import {
+  ArrowRight,
+  FileText,
+  User,
+  Settings,
+  BookOpen,
+} from "lucide-react";
 
-// Demo data - replace with API calls when backend is ready
-const demoStats = [
-  {
-    icon: FileText,
-    label: 'My Posts',
-    value: '12',
-    change: '+2 this month',
-    variant: 'default' as const,
-  },
-  {
-    icon: Eye,
-    label: 'Total Views',
-    value: '3,245',
-    change: '+125 today',
-    variant: 'success' as const,
-  },
-  {
-    icon: MessageSquare,
-    label: 'Comments',
-    value: '84',
-    change: '+12 this week',
-    variant: 'warning' as const,
-  },
-  {
-    icon: TrendingUp,
-    label: 'Engagement',
-    value: '8.5%',
-    change: '+0.3% from last week',
-    variant: 'default' as const,
-  },
-];
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const demoActivities: ActivityItem[] = [
-  {
-    id: '1',
-    title: 'New comment on "Getting Started with React"',
-    description: 'John Doe commented on your post',
-    timestamp: '2 hours ago',
-    type: 'comment',
-  },
-  {
-    id: '2',
-    title: 'Your post reached 500 views',
-    description: '"Advanced TypeScript Patterns" milestone',
-    timestamp: '1 day ago',
-    type: 'post',
-  },
-  {
-    id: '3',
-    title: 'New subscriber',
-    description: 'Jane Smith subscribed to your updates',
-    timestamp: '2 days ago',
-    type: 'user',
-  },
-  {
-    id: '4',
-    title: 'System maintenance completed',
-    description: 'Platform upgraded to latest version',
-    timestamp: '3 days ago',
-    type: 'system',
-  },
-];
-
-const demoRecentPosts: TableRow[] = [
-  {
-    id: '1',
-    title: 'Getting Started with React Hooks',
-    status: 'Published',
-    views: '1,234',
-    date: 'Mar 15, 2024',
-  },
-  {
-    id: '2',
-    title: 'Advanced TypeScript Patterns',
-    status: 'Published',
-    views: '892',
-    date: 'Mar 10, 2024',
-  },
-  {
-    id: '3',
-    title: 'State Management Best Practices',
-    status: 'Draft',
-    views: '0',
-    date: 'Mar 8, 2024',
-  },
-];
-
-const postColumns: TableColumn[] = [
-  { key: 'title', label: 'Title' },
-  {
-    key: 'status',
-    label: 'Status',
-    render: (value) => (
-      <span className={`px-2 py-1 rounded text-xs font-medium ${
-        value === 'Published'
-          ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300'
-          : 'bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-300'
-      }`}>
-        {value}
-      </span>
-    ),
-  },
-  { key: 'views', label: 'Views' },
-  { key: 'date', label: 'Date' },
-];
+import { Button } from "@/components/ui/button";
 
 export default function UserDashboard() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">Welcome back! Here&apos;s what&apos;s happening with your content.</p>
+      <div className="space-y-2">
+        <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">
+          Dashboard
+        </h1>
+
+        <p className="max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
+          Welcome to your Prisma Press dashboard. Manage your profile,
+          explore content, and keep your account information up to date.
+        </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {demoStats.map((stat) => (
-          <StatCard key={stat.label} {...stat} />
-        ))}
-      </div>
+      {/* Welcome Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Welcome to Prisma Press</CardTitle>
 
-      {/* Main Content Grid */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Recent Posts */}
-        <div className="lg:col-span-2">
-          <DataTable
-            title="Recent Posts"
-            description="Your latest published and draft posts"
-            columns={postColumns}
-            rows={demoRecentPosts}
-          />
-        </div>
+          <CardDescription>
+            Your account dashboard
+          </CardDescription>
+        </CardHeader>
 
-        {/* Quick Stats Card */}
-        <Card>
+        <CardContent>
+          <p className="max-w-3xl text-sm leading-6 text-muted-foreground">
+            From here, you can manage your account information and access
+            the features available to you. Keep your profile updated so
+            your account information stays accurate.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Account Actions */}
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Profile */}
+        <Card className="flex flex-col">
           <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-            <CardDescription>This week overview</CardDescription>
+            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+              <User className="size-5 text-primary" />
+            </div>
+
+            <CardTitle>My Profile</CardTitle>
+
+            <CardDescription>
+              View and manage your account profile.
+            </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">Avg. Views/Post</p>
-              <p className="text-2xl font-bold">270</p>
+
+          <CardContent className="mt-auto">
+            <Button asChild className="w-full cursor-pointer">
+              <Link href="/dashboard/profile/me">
+                View Profile
+                <ArrowRight className="ml-2 size-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Posts */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+              <FileText className="size-5 text-primary" />
             </div>
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">Top Post</p>
-              <p className="text-sm font-semibold">React Hooks Guide</p>
-              <p className="text-xs text-muted-foreground">1,234 views</p>
+
+            <CardTitle>Posts</CardTitle>
+
+            <CardDescription>
+              Explore and manage your posts and content.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="mt-auto">
+            <Button
+              asChild
+              variant="outline"
+              className="w-full cursor-pointer"
+            >
+              <Link href="/create-post">
+                Create a Post
+                <ArrowRight className="ml-2 size-4" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Settings / Account */}
+        <Card className="flex flex-col">
+          <CardHeader>
+            <div className="mb-2 flex size-10 items-center justify-center rounded-lg bg-primary/10">
+              <Settings className="size-5 text-primary" />
             </div>
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">Avg. Read Time</p>
-              <p className="text-2xl font-bold">5m</p>
-            </div>
+
+            <CardTitle>Account</CardTitle>
+
+            <CardDescription>
+              Manage your account and personal information.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="mt-auto">
+            <Button
+              asChild
+              variant="outline"
+              className="w-full cursor-pointer"
+            >
+              <Link href="/dashboard/profile/me">
+                Manage Account
+                <ArrowRight className="ml-2 size-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       </div>
 
-      {/* Activity Feed */}
-      <ActivityFeed
-        title="Recent Activity"
-        description="Latest interactions with your content"
-        activities={demoActivities}
-      />
+      {/* Getting Started */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="size-5" />
+            Getting Started
+          </CardTitle>
+
+          <CardDescription>
+            A few things you can do from your account.
+          </CardDescription>
+        </CardHeader>
+
+        <CardContent>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="rounded-lg border p-4">
+              <p className="font-medium">Complete your profile</p>
+
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                Review your profile information and keep your account
+                details up to date.
+              </p>
+
+              <Button
+                asChild
+                variant="link"
+                className="mt-2 h-auto cursor-pointer px-0"
+              >
+                <Link href="/dashboard/profile/me">
+                  Go to profile
+                  <ArrowRight className="ml-1 size-3.5" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="rounded-lg border p-4">
+              <p className="font-medium">Create content</p>
+
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                Share your ideas and publish content on Prisma Press.
+              </p>
+
+              <Button
+                asChild
+                variant="link"
+                className="mt-2 h-auto cursor-pointer px-0"
+              >
+                <Link href="/create-post">
+                  Create a post
+                  <ArrowRight className="ml-1 size-3.5" />
+                </Link>
+              </Button>
+            </div>
+
+            <div className="rounded-lg border p-4">
+              <p className="font-medium">Explore Prisma Press</p>
+
+              <p className="mt-1 text-sm leading-6 text-muted-foreground">
+                Browse the latest content and discover articles from
+                the community.
+              </p>
+
+              <Button
+                asChild
+                variant="link"
+                className="mt-2 h-auto cursor-pointer px-0"
+              >
+                <Link href="/news">
+                  Explore news
+                  <ArrowRight className="ml-1 size-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Profile Reminder */}
+      <div className="rounded-xl border bg-muted/30 p-5 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1">
+            <h2 className="font-semibold">
+              Want to update your profile?
+            </h2>
+
+            <p className="text-sm text-muted-foreground">
+              Go to your profile page to view or update your account
+              information.
+            </p>
+          </div>
+
+          <Button asChild className="w-full cursor-pointer sm:w-auto">
+            <Link href="/dashboard/profile/me">
+              My Profile
+              <ArrowRight className="ml-2 size-4" />
+            </Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
