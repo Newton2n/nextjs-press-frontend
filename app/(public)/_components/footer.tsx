@@ -245,7 +245,7 @@ export function Footer() {
           "
         >
           <p className="text-xs leading-5 text-muted-foreground sm:text-sm sm:leading-6">
-            © {new Date().getFullYear()} Prisma Press. All rights reserved.
+            © 2026 Prisma Press. All rights reserved.
           </p>
 
           <p className="text-xs leading-5 text-muted-foreground sm:text-sm sm:leading-6 sm:text-right">

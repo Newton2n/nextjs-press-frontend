@@ -262,7 +262,7 @@ export default function PrivacyPage() {
         </div>
 
         <footer className="flex flex-col gap-3 border-t pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Prisma Press</p>
+          <p>© 2026 Prisma Press</p>
 
           <div className="flex flex-wrap gap-x-5 gap-y-2">
             <Link
